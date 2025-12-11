@@ -1,6 +1,9 @@
 'use client';
 import { useState, useEffect } from "react";
 import { Heart, Star, Zap, Moon, Sun, Coffee, Music, Smile } from "lucide-react";
+import { useAuth, useFirestore, useDoc, useMemoFirebase } from "@/firebase";
+import { doc } from 'firebase/firestore';
+import { setDocumentNonBlocking } from '@/firebase';
 
 const moods = [
   { icon: Heart, label: "Romantic", color: "text-primary", bg: "bg-primary/10" },
@@ -14,18 +17,36 @@ const moods = [
 ];
 
 const MoodTracker = () => {
-  const [vishuMood, setVishuMood] = useState<number | null>(null);
-  const [oshiMood, setOshiMood] = useState<number | null>(null);
   const [compatibility, setCompatibility] = useState<number | null>(null);
+  const { user } = useAuth();
+  const firestore = useFirestore();
+
+  const today = new Date().toISOString().split('T')[0];
+  const moodsRef = useMemoFirebase(() => {
+    if (!firestore) return null;
+    return doc(firestore, 'moods', today);
+  }, [firestore, today]);
+
+  const { data: moodsData } = useDoc<{ vishu?: number; oshi?: number }>(moodsRef);
+
+  const vishuMood = moodsData?.vishu;
+  const oshiMood = moodsData?.oshi;
 
   useEffect(() => {
-    if (vishuMood !== null && oshiMood !== null) {
-      // Fun compatibility calculation
+    if (vishuMood !== undefined && oshiMood !== undefined) {
       const diff = Math.abs(vishuMood - oshiMood);
       const score = 100 - (diff * 8) + Math.floor(Math.random() * 10);
       setCompatibility(Math.min(100, Math.max(75, score)));
+    } else {
+      setCompatibility(null);
     }
   }, [vishuMood, oshiMood]);
+
+  const handleSetMood = (moodIndex: number, person: 'vishu' | 'oshi') => {
+    if (!moodsRef) return;
+    const newMood = { [person]: moodIndex };
+    setDocumentNonBlocking(moodsRef, newMood, { merge: true });
+  };
 
   return (
     <section className="py-16 px-4 bg-rose-soft/30">
@@ -47,9 +68,9 @@ const MoodTracker = () => {
               {moods.map((mood, idx) => (
                 <button
                   key={idx}
-                  onClick={() => setVishuMood(idx)}
+                  onClick={() => handleSetMood(idx, 'vishu')}
                   className={`p-3 rounded-xl flex flex-col items-center gap-1 transition-all ${
-                    vishuMood === idx 
+                    vishuMood === idx
                       ? `${mood.bg} ring-2 ring-current ${mood.color} scale-105` 
                       : 'hover:bg-muted'
                   }`}
@@ -70,9 +91,9 @@ const MoodTracker = () => {
               {moods.map((mood, idx) => (
                 <button
                   key={idx}
-                  onClick={() => setOshiMood(idx)}
+                  onClick={() => handleSetMood(idx, 'oshi')}
                   className={`p-3 rounded-xl flex flex-col items-center gap-1 transition-all ${
-                    oshiMood === idx 
+                    oshiMood === idx
                       ? `${mood.bg} ring-2 ring-current ${mood.color} scale-105` 
                       : 'hover:bg-muted'
                   }`}

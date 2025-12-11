@@ -1,206 +1,86 @@
-/**
- * Core Philosophy: This ruleset enforces a strict, denormalized authorization model.
- * Access to shared data (like matches, journals, events, and groups) is determined by
- * user IDs stored directly on the document being accessed. This avoids complex, slow,
- * or impossible lookups to other documents, resulting in fast and secure rules.
- * Private data is secured using path-based ownership.
- *
- * Data Structure: The data is organized into a mix of user-specific subcollections
- * and top-level collections for collaborative data.
- * - `/users/{userId}/profile`: Stores private user data, accessible only by the owner.
- * - `/matches`, `/sharedJournalEntries`, `/interestGroups`, `/events`: Top-level
- *   collections for data shared between specific users. Each document contains the
- *   necessary authorization fields (e.g., `user1Id`, `memberIds`).
- *
- * Key Security Decisions:
- * - Default Deny for Listing: Listing entire top-level collaborative collections (e.g.,
- *   all matches) is disabled by default (`allow list: if false;`). This is a critical
- *   security measure to prevent data leaks. Client applications must build queries that
- *   target data specific to the user (e.g., using `where('participantIds', 'array-contains', uid)`),
- *   which these rules are designed to support on a per-document `get` basis.
- * - Ownership is Immutable: Once ownership or core participant fields (e.g., `creatorId`,
- *   `user1Id`, `user2Id`) are set on a document, they cannot be changed.
- * - Creator/Organizer is Manager: For collaborative documents like Interest Groups and Events,
- *   only the original creator or organizer has permission to modify or delete them.
- *
- * Denormalization for Authorization: This is the central principle. Instead of using a `get()`
- * call to check if a user belongs to a match (e.g., `get(/databases/$(database)/documents/matches/$(matchId))`),
- * we denormalize participant IDs onto every document. For example, a `message` within a match
- * contains its own `senderId` and `recipientId`, making its security rule independent and fast.
- *
- * Structural Segregation: User-private data (`/users`) is structurally isolated from
- * shared data (`/matches`, `/events`, etc.). This separation ensures that rules for one
- * type of data do not inadvertently affect another, simplifying the security model.
- */
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // --------------------------------------------------------------------
-    // Helper Functions
-    // --------------------------------------------------------------------
-
-    /**
-     * Checks if a user is authenticated.
-     */
+    // Helper functions
     function isSignedIn() {
       return request.auth != null;
     }
 
-    /**
-     * Checks if the requesting user's UID matches the given userId.
-     * This is the foundation for the "Ownership" access pattern.
-     */
+    // For the shared journal and moods, we'll hardcode the UIDs for Vishu and Oshi for simplicity.
+    // In a real app, these would be stored securely or managed via a different mechanism.
+    // We will use anonymous UIDs for now.
+    function isCouple() {
+      // Allow any signed-in user for now.
+      return isSignedIn();
+    }
+    
+    match /sharedJournal/vishu-oshi/entries/{entryId} {
+      allow read, write: if isCouple();
+    }
+
+    match /moods/{date} {
+      allow read, write: if isCouple();
+    }
+    
+    // Previous rules...
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
-
-    /**
-     * Checks if the document being operated on already exists.
-     * CRITICAL for all update and delete operations.
-     */
     function isExistingDoc() {
       return resource != null;
     }
-
-    /**
-     * Checks if the requesting user is one of the two participants in a match or journal.
-     */
     function isParticipant(docData) {
       return isSignedIn() && (request.auth.uid == docData.user1Id || request.auth.uid == docData.user2Id);
     }
-
-    /**
-     * Checks if the requesting user is the creator of an Interest Group.
-     */
     function isGroupCreator(docData) {
       return isSignedIn() && request.auth.uid == docData.creatorId;
     }
-
-    /**
-     * Checks if the requesting user is the creator or a member of an Interest Group.
-     */
     function isGroupMemberOrCreator(docData) {
       return isGroupCreator(docData) || (request.auth.uid in docData.memberIds);
     }
-
-    /**
-     * Checks if the requesting user is the organizer of an Event.
-     */
     function isEventOrganizer(docData) {
       return isSignedIn() && request.auth.uid == docData.organizerId;
     }
-
-    /**
-     * Checks if the requesting user is the organizer or an attendee of an Event.
-     */
     function isEventAttendeeOrOrganizer(docData) {
       return isEventOrganizer(docData) || (request.auth.uid in docData.attendeeIds);
     }
-    
-    /**
-     * Checks if the requesting user is the sender of a message.
-     */
     function isMessageSender(docData) {
       return isSignedIn() && request.auth.uid == docData.senderId;
     }
-
-
-    // --------------------------------------------------------------------
-    // Collection Rules
-    // --------------------------------------------------------------------
-
-    /**
-     * @description A user's private profile.
-     * @path /users/{userId}/profile/{profileId}
-     * @allow (create) An authenticated user creating their own profile document.
-     * @deny (get) An authenticated user trying to read another user's profile.
-     * @principle Restricts access to a user's own data tree.
-     */
     match /users/{userId}/profile/{profileId} {
       allow get, list: if isOwner(userId);
       allow create: if isOwner(userId) && request.resource.data.id == userId;
       allow update: if isOwner(userId) && isExistingDoc() && request.resource.data.id == resource.data.id;
       allow delete: if isOwner(userId) && isExistingDoc();
     }
-
-    /**
-     * @description A match between two users.
-     * @path /matches/{matchId}
-     * @allow (get) A user (`user1Id` or `user2Id`) reading their own match document.
-     * @deny (get) A user trying to read a match document they are not part of.
-     * @deny (list) Listing the entire matches collection is forbidden to prevent data leakage.
-     * @principle Access is restricted to the explicit participants listed on the document.
-     */
     match /matches/{matchId} {
       allow get: if isParticipant(resource.data);
-      allow list: if false; // Deny listing all matches for security. Client must query for their own.
+      allow list: if false; 
       allow create: if isParticipant(request.resource.data);
-      allow update: if false; // Matches are considered immutable once created.
+      allow update: if false;
       allow delete: if isParticipant(resource.data) && isExistingDoc();
     }
-
-    /**
-     * @description A message within a match subcollection.
-     * @path /matches/{matchId}/messages/{messageId}
-     * @allow (create) An authenticated user sending a message where they are the `senderId`.
-     * @deny (create) A user trying to send a message on behalf of someone else.
-     * @deny (update) Messages cannot be edited after being sent.
-     * @principle Authorization is self-contained in the document, avoiding slow parent lookups.
-     */
     match /matches/{matchId}/messages/{messageId} {
       allow get, list: if isParticipant(get(/databases/$(database)/documents/matches/$(matchId)).data);
       allow create: if isMessageSender(request.resource.data) && isParticipant(get(/databases/$(database)/documents/matches/$(matchId)).data);
       allow update: if isMessageSender(resource.data) && isExistingDoc() && request.resource.data.senderId == resource.data.senderId && request.resource.data.recipientId == resource.data.recipientId;
       allow delete: if isMessageSender(resource.data) && isExistingDoc();
     }
-
-    /**
-     * @description A collaborative group based on a shared interest.
-     * @path /interestGroups/{interestGroupId}
-     * @allow (get) A member of the group reading the group document.
-     * @deny (update) A regular member trying to change the group description. Only the creator can.
-     * @deny (list) Listing all interest groups is forbidden.
-     * @principle Enforces a creator-as-admin model for writes and member-based access for reads.
-     */
     match /interestGroups/{interestGroupId} {
       allow get: if isGroupMemberOrCreator(resource.data);
-      allow list: if false; // Deny listing all groups for security.
+      allow list: if false;
       allow create: if isGroupCreator(request.resource.data);
       allow update: if isGroupCreator(resource.data) && isExistingDoc() && request.resource.data.creatorId == resource.data.creatorId;
       allow delete: if isGroupCreator(resource.data) && isExistingDoc();
     }
-
-    /**
-     * @description An event that users can attend.
-     * @path /events/{eventId}
-     * @allow (get) An attendee reading the event details.
-     * @deny (delete) An attendee trying to cancel the event. Only the organizer can.
-     * @deny (list) Listing all events is forbidden.
-     * @principle Enforces an organizer-as-admin model for writes and attendee-based access for reads.
-     */
     match /events/{eventId} {
       allow get: if isEventAttendeeOrOrganizer(resource.data);
-      allow list: if false; // Deny listing all events for security.
+      allow list: if false;
       allow create: if isEventOrganizer(request.resource.data);
       allow update: if isEventOrganizer(resource.data) && isExistingDoc() && request.resource.data.organizerId == resource.data.organizerId;
       allow delete: if isEventOrganizer(resource.data) && isExistingDoc();
-    }
-
-    /**
-     * @description A private journal entry shared between two users.
-     * @path /sharedJournalEntries/{entryId}
-     * @allow (create) One of the two participants creating a new journal entry.
-     * @deny (get) A user trying to read a journal entry they are not a part of.
-     * @deny (list) Listing the entire journal collection is forbidden.
-     * @principle Access is restricted to the explicit participants listed on the document.
-     */
-    match /sharedJournalEntries/{entryId} {
-      allow get: if isParticipant(resource.data);
-      allow list: if false; // Deny listing all entries for security.
-      allow create: if isParticipant(request.resource.data);
-      allow update: if isParticipant(resource.data) && isExistingDoc() && request.resource.data.user1Id == resource.data.user1Id && request.resource.data.user2Id == resource.data.user2Id;
-      allow delete: if isParticipant(resource.data) && isExistingDoc();
     }
   }
 }

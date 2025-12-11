@@ -15,6 +15,7 @@ import SecretMessages from "@/components/SecretMessages";
 import SpecialDates from "@/components/SpecialDates";
 import Milestones from "@/components/Milestones";
 import Footer from "@/components/Footer";
+import SharedJournal from "@/components/SharedJournal";
 
 const Index = () => {
   return (
@@ -24,6 +25,7 @@ const Index = () => {
         <Hero />
         <DailyAffirmation />
         <LoveMessage />
+        <SharedJournal />
         <LoveQuotes />
         <SendLove />
         <LoveCalculator />

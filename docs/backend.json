@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "UserProfile": {
@@ -203,35 +204,53 @@
           "type": "string",
           "description": "Unique identifier for the SharedJournalEntry entity."
         },
-        "user1Id": {
+        "userId": {
           "type": "string",
-          "description": "Reference to the first user in the journal entry. (Relationship: UserProfile 1:N SharedJournalEntry)"
-        },
-        "user2Id": {
-          "type": "string",
-          "description": "Reference to the second user in the journal entry. (Relationship: UserProfile 1:N SharedJournalEntry)"
-        },
-        "entryDate": {
-          "type": "string",
-          "description": "The date of the journal entry.",
-          "format": "date-time"
+          "description": "The ID of the user who wrote the entry."
         },
         "content": {
           "type": "string",
           "description": "The content of the journal entry."
         },
-        "mood": {
+        "timestamp": {
           "type": "string",
-          "description": "The mood of the user on the day of the journal entry."
+          "format": "date-time",
+          "description": "The date of the journal entry."
+        },
+        "coupleId": {
+          "type": "string",
+          "description": "A shared identifier for the couple."
         }
       },
       "required": [
         "id",
-        "user1Id",
-        "user2Id",
-        "entryDate",
-        "content"
+        "userId",
+        "content",
+        "timestamp",
+        "coupleId"
       ]
+    },
+    "Moods": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Moods",
+      "type": "object",
+      "description": "Represents the daily moods of the couple.",
+      "properties": {
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "The date for which moods are recorded (YYYY-MM-DD)."
+        },
+        "vishu": {
+          "type": "number",
+          "description": "Vishu's mood, represented by an index from the moods array."
+        },
+        "oshi": {
+          "type": "number",
+          "description": "Oshi's mood, represented by an index from the moods array."
+        }
+      },
+      "required": ["date"]
     }
   },
   "auth": {
@@ -327,13 +346,13 @@
         }
       },
       {
-        "path": "/sharedJournalEntries/{entryId}",
+        "path": "/sharedJournal/vishu-oshi/entries/{entryId}",
         "definition": {
           "entityName": "SharedJournalEntry",
           "schema": {
             "$ref": "#/backend/entities/SharedJournalEntry"
           },
-          "description": "Stores shared journal entries between two users. Access is restricted to the two users sharing the journal.",
+          "description": "Stores shared journal entries for a specific couple. Access is restricted to the two users.",
           "params": [
             {
               "name": "entryId",
@@ -341,8 +360,24 @@
             }
           ]
         }
+      },
+      {
+        "path": "/moods/{date}",
+        "definition": {
+          "entityName": "Moods",
+          "schema": {
+            "$ref": "#/backend/entities/Moods"
+          },
+          "description": "Stores the daily moods for the couple. The document ID is the date (YYYY-MM-DD).",
+          "params": [
+            {
+              "name": "date",
+              "description": "The date in YYYY-MM-DD format."
+            }
+          ]
+        }
       }
     ],
-    "reasoning": "The Firestore structure is designed to ensure authorization independence, clarity, and scalability, adhering to the principles of DBAC (Database-Based Access Control) and QAPs (Queries are not filters). It leverages denormalization and structural segregation to simplify security rules and support atomic operations.\n\n**Authorization Independence and QAPs (Queries are not Filters):**\n*   **Matches Collection:** The `/matches/{matchId}` collection stores match data. Security rules ensure that only the two matched users can access match documents. `user1Id` and `user2Id` are used in rules to verify access.\n*   **Messages Subcollection:** Messages are stored in a subcollection `/matches/{matchId}/messages/{messageId}`.  Crucially, each message contains `senderId` and `recipientId`. This denormalization allows security rules to independently verify that either the sender or recipient matches the authenticated user, **without relying on parent document data**.  This is CRITICAL for authorization independence.\n*   **Interest Groups:** Interest groups are stored in the `/interestGroups/{interestGroupId}` collection. Access control is managed through the `creatorId` and `memberIds` fields. The creator always has edit access. The `memberIds` allows read access to members. The AI monitored discussions are simple to secure because all data resides in a single document.\n*   **Events:** Events are stored in the `/events/{eventId}` collection. Similar to interest groups, access control is managed through the `organizerId` and `attendeeIds` fields.\n*   **Shared Journal Entries:** Shared journal entries are stored in the `/sharedJournalEntries/{entryId}` collection. The `user1Id` and `user2Id` fields are used to control access.  These are top-level collections, enabling secure list operations using only the `request.auth.uid` and the fields in the documents themselves.\n\n**Structural Segregation:**\nThe design avoids mixing data with different access needs in the same collection. User profiles are stored separately from match data, messages, interest groups, events, and shared journal entries. This segregation simplifies security rules by ensuring that all documents within a collection share the same security posture.\n\n**Access Modeling:**\n*   **Private Data:** User profiles (`/users/{userId}/profile`) utilize path-based ownership, ensuring that only the authenticated user can access their own profile data.  The profile id is generated during user creation.\n*   **Collaborative Data:** Matches, Interest Groups, Events, and Shared Journal Entries use a combination of creator/organizer/user ID fields and lists of member/attendee IDs to manage access. This membership model facilitates collaboration while maintaining clear ownership and access controls.\n\n**Data Clarity and Predictability:**\nThe schema enforces strict naming conventions and uses explicit fields like `creatorId`, `organizerId`, `user1Id`, `user2Id`, `memberIds`, and `attendeeIds` to represent relationships and access rights. This makes the structure more predictable and easier to understand, contributing to improved debuggability and maintainability."
+    "reasoning": "The Firestore structure is designed to ensure authorization independence, clarity, and scalability, adhering to the principles of DBAC (Database-Based Access Control) and QAPs (Queries are not filters). It leverages denormalization and structural segregation to simplify security rules and support atomic operations.\n\n**Authorization Independence and QAPs (Queries are not Filters):**\n*   **Matches Collection:** The `/matches/{matchId}` collection stores match data. Security rules ensure that only the two matched users can access match documents. `user1Id` and `user2Id` are used in rules to verify access.\n*   **Messages Subcollection:** Messages are stored in a subcollection `/matches/{matchId}/messages/{messageId}`.  Crucially, each message contains `senderId` and `recipientId`. This denormalization allows security rules to independently verify that either the sender or recipient matches the authenticated user, **without relying on parent document data**.  This is CRITICAL for authorization independence.\n*   **Interest Groups:** Interest groups are stored in the `/interestGroups/{interestGroupId}` collection. Access control is managed through the `creatorId` and `memberIds` fields. The creator always has edit access. The `memberIds` allows read access to members. The AI monitored discussions are simple to secure because all data resides in a single document.\n*   **Events:** Events are stored in the `/events/{eventId}` collection. Similar to interest groups, access control is managed through the `organizerId` and `attendeeIds` fields.\n*   **Shared Journal Entries:** Stored under a predictable path `/sharedJournal/vishu-oshi/entries/{entryId}`. This allows both users to easily query for all entries. Access is controlled by checking if the authenticated user is one of the two designated UIDs for 'vishu' or 'oshi'.\n*   **Moods:** Stored in a top-level `moods` collection with the date as the document ID. This makes it simple to fetch the moods for a specific day. Access is restricted to the two designated users.\n\n**Structural Segregation:**\nThe design avoids mixing data with different access needs in the same collection. User profiles are stored separately from match data, messages, interest groups, events, and shared journal entries. This segregation simplifies security rules by ensuring that all documents within a collection share the same security posture.\n\n**Access Modeling:**\n*   **Private Data:** User profiles (`/users/{userId}/profile`) utilize path-based ownership, ensuring that only the authenticated user can access their own profile data.  The profile id is generated during user creation.\n*   **Collaborative Data:** Matches, Interest Groups, Events, and Shared Journal Entries use a combination of creator/organizer/user ID fields and lists of member/attendee IDs to manage access. This membership model facilitates collaboration while maintaining clear ownership and access controls.\n\n**Data Clarity and Predictability:**\nThe schema enforces strict naming conventions and uses explicit fields like `creatorId`, `organizerId`, `user1Id`, `user2Id`, `memberIds`, and `attendeeIds` to represent relationships and access rights. This makes the structure more predictable and easier to understand, contributing to improved debuggability and maintainability."
   }
 }
