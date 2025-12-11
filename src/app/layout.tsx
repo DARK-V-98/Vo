@@ -1,18 +1,11 @@
-import type { Metadata } from 'next';
-import './globals.css';
-import { cn } from '@/lib/utils';
-import { AppSidebar } from '@/components/layout/sidebar';
-import { AppHeader } from '@/components/layout/header';
-import {
-  SidebarProvider,
-  SidebarInset,
-  Sidebar,
-} from '@/components/ui/sidebar';
-import { Toaster } from '@/components/ui/toaster';
+import type { Metadata } from "next";
+import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 export const metadata: Metadata = {
-  title: 'Affectionately',
-  description: 'Find your connection, affectionately.',
+  title: "Vishu ❤️ Oshi | Our Love Story",
+  description: "A beautiful love story of Vishu and Oshi - celebrating 86 days of love and counting",
 };
 
 export default function RootLayout({
@@ -30,21 +23,15 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Quicksand:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className={cn('font-body antialiased')}>
-        <SidebarProvider>
-          <div className="flex min-h-screen">
-            <AppSidebar />
-            <div className="flex-1">
-              <AppHeader />
-              <main>{children}</main>
-            </div>
-          </div>
-        </SidebarProvider>
-        <Toaster />
+      <body>
+        <TooltipProvider>
+          {children}
+          <Toaster />
+        </TooltipProvider>
       </body>
     </html>
   );

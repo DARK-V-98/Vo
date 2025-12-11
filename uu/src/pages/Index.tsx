@@ -1,4 +1,3 @@
-'use client';
 import FloatingHearts from "@/components/FloatingHearts";
 import Hero from "@/components/Hero";
 import DailyAffirmation from "@/components/DailyAffirmation";
