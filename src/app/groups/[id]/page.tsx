@@ -6,6 +6,12 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { GroupChat } from '@/components/groups/group-chat';
 import { Users as UsersIcon } from 'lucide-react';
 
+export async function generateStaticParams() {
+  return groups.map((group) => ({
+    id: group.id,
+  }));
+}
+
 export default function GroupDetailPage({ params }: { params: { id: string } }) {
   const group = groups.find((g) => g.id === params.id);
   if (!group) {
