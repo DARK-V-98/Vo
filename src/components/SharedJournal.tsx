@@ -74,7 +74,7 @@ const SharedJournal = () => {
             className="bg-rose-soft border-none h-28 focus:ring-2 focus:ring-primary/50"
           />
           <div className="flex justify-end mt-4">
-            <Button onClick={handleSubmit} disabled={!entry.trim()}>
+            <Button type="button" onClick={handleSubmit} disabled={!entry.trim()}>
               <Send className="mr-2" />
               Save Entry
             </Button>
