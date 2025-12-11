@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Send, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { monitorGroupDiscussion } from '@/ai/flows/monitor-group-discussions';
 import { useToast } from '@/hooks/use-toast';
 
 type GroupChatProps = {
@@ -42,21 +41,6 @@ export function GroupChat({ initialMessages, groupTopic }: GroupChatProps) {
         setIsSending(true);
 
         try {
-            const moderationResult = await monitorGroupDiscussion({
-                message: newMessage,
-                groupTopic: groupTopic,
-            });
-
-            if (!moderationResult.isAppropriate) {
-                toast({
-                    variant: 'destructive',
-                    title: 'Inappropriate Message',
-                    description: moderationResult.flagReason || 'This message violates group guidelines.',
-                });
-                setIsSending(false);
-                return;
-            }
-
             const message: Message = {
                 id: `msg-${Date.now()}`,
                 senderId: currentUser.id,
@@ -67,7 +51,7 @@ export function GroupChat({ initialMessages, groupTopic }: GroupChatProps) {
             setNewMessage('');
 
         } catch (error) {
-            console.error('Failed to send or moderate message:', error);
+            console.error('Failed to send message:', error);
             toast({
                 variant: 'destructive',
                 title: 'Error',

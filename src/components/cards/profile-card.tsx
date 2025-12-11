@@ -1,27 +1,8 @@
 import Image from 'next/image';
 import type { User } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
-import { summarizeUserProfileForMatches } from '@/ai/flows/summarize-user-profile-for-matches';
 import { Heart } from 'lucide-react';
 import { Button } from '../ui/button';
-
-async function AiSummary({ user }: { user: User }) {
-  try {
-    // Note: photoDataUri is omitted as we can't easily convert remote URLs to data URIs on the server.
-    // The model is expected to work with text-only input.
-    const { summary } = await summarizeUserProfileForMatches({
-      name: user.name,
-      interests: user.interests,
-      bio: user.bio,
-      photoDataUri: '',
-    });
-    return <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{summary}</p>;
-  } catch (error) {
-    console.error('AI summary failed:', error);
-    // Fallback to bio if AI fails
-    return <p className="text-sm text-muted-foreground mt-2 leading-relaxed truncate">{user.bio}</p>;
-  }
-}
 
 export function ProfileCard({ user }: { user: User }) {
   return (
@@ -43,7 +24,7 @@ export function ProfileCard({ user }: { user: User }) {
         </div>
       </div>
       <CardContent className="p-4 bg-card">
-        <AiSummary user={user} />
+        <p className="text-sm text-muted-foreground mt-2 leading-relaxed truncate">{user.bio}</p>
         <Button className="w-full mt-4 bg-accent hover:bg-accent/90 text-accent-foreground">
           <Heart className="mr-2 h-4 w-4" /> Connect
         </Button>
