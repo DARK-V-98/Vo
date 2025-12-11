@@ -1,7 +1,7 @@
 'use client';
 import { useState } from "react";
 import { Heart, Image as ImageIcon } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 
 interface GalleryImage {
   id: number;
@@ -59,6 +59,10 @@ const Gallery = () => {
                   </button>
                 </DialogTrigger>
                 <DialogContent className="max-w-3xl p-0 overflow-hidden bg-card border-border">
+                  <DialogHeader className="sr-only">
+                    <DialogTitle>Image: {image.caption}</DialogTitle>
+                    <DialogDescription>A larger view of the image from the gallery.</DialogDescription>
+                  </DialogHeader>
                   <img
                     src={image.src}
                     alt={image.caption}
