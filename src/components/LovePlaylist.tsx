@@ -4,7 +4,7 @@ import ReactPlayer from 'react-player/youtube';
 import { Heart, Music, Play, Pause } from "lucide-react";
 
 const songs = [
-  { title: "Perfect", artist: "Ed Sheeran", url: "https://www.youtube.com/watch?v=cNGjD0VG4R8" },
+  { title: "Perfect", artist: "Ed Sheeran", url: "https://www.youtube.com/watch?v=2Vv-BfVoq4g" },
   { title: "All of Me", artist: "John Legend", url: "https://www.youtube.com/watch?v=450p7goxZqg" },
   { title: "A Thousand Years", artist: "Christina Perri", url: "https://www.youtube.com/watch?v=rtOvBOTyX00" },
   { title: "Thinking Out Loud", artist: "Ed Sheeran", url: "https://www.youtube.com/watch?v=lp-EO5I60KA" },
