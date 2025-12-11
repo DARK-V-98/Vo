@@ -8,12 +8,9 @@ service cloud.firestore {
       return request.auth != null;
     }
 
-    // For the shared journal and moods, we'll hardcode the UIDs for Vishu and Oshi for simplicity.
-    // In a real app, these would be stored securely or managed via a different mechanism.
-    // We will use anonymous UIDs for now.
+    // For the shared journal and moods, we'll make it open for now.
     function isCouple() {
-      // Allow any signed-in user for now.
-      return isSignedIn();
+      return true;
     }
     
     match /sharedJournal/vishu-oshi/entries/{entryId} {
