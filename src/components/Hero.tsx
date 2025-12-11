@@ -39,14 +39,6 @@ const Hero = () => {
       <div className="absolute bottom-20 right-10 animate-float-delayed opacity-30">
         <Heart className="w-10 h-10 text-primary fill-primary" />
       </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="flex flex-col items-center gap-2 text-muted-foreground">
-          <span className="text-sm">Scroll to explore</span>
-          <Heart className="w-5 h-5 text-primary" />
-        </div>
-      </div>
     </section>
   );
 };
