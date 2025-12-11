@@ -10,12 +10,16 @@ interface GalleryImage {
 }
 
 const initialImages: GalleryImage[] = [
-  { id: 1, src: "/gallery-1.jpg", caption: "Our first photo together" },
-  { id: 2, src: "/gallery-2.jpg", caption: "A beautiful memory" },
-  { id: 3, src: "/gallery-3.jpg", caption: "Love in every moment" },
-  { id: 4, src: "/gallery-4.jpg", caption: "Forever and always" },
-  { id: 5, src: "/gallery-5.jpg", caption: "My favorite smile" },
-  { id: 6, src: "/gallery-6.jpg", caption: "Together is my favorite place" },
+  { id: 1, src: "/1.jpeg", caption: "Our first photo together" },
+  { id: 2, src: "/2.jpeg", caption: "A beautiful memory" },
+  { id: 3, src: "/3.jpeg", caption: "Love in every moment" },
+  { id: 4, src: "/4.jpeg", caption: "Forever and always" },
+  { id: 5, src: "/5.jpeg", caption: "My favorite smile" },
+  { id: 6, src: "/6.jpeg", caption: "Together is my favorite place" },
+  { id: 7, src: "/7.jpeg", caption: "Unforgettable times" },
+  { id: 8, src: "/8.jpeg", caption: "My favorite person" },
+  { id: 9, src: "/9.jpeg", caption: "Pure happiness" },
+  { id: 10, src: "/10.jpeg", caption: "Love and laughter" },
 ];
 
 const Gallery = () => {
@@ -33,7 +37,7 @@ const Gallery = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
           {images.map((image, index) => (
             <div
               key={image.id}
