@@ -1,3 +1,160 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "profile-1",
+      "description": "Profile photo 1",
+      "imageUrl": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjU0NTgyNzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "profile-2",
+      "description": "Profile photo 2",
+      "imageUrl": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjU0NTgyNzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "profile-3",
+      "description": "Profile photo 3",
+      "imageUrl": "https://images.unsplash.com/photo-1531123414780-f74242c2b052?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGVyc29uJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY1NDU4MjcxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "profile-4",
+      "description": "Profile photo 4",
+      "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjU0NTgyNzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "profile-5",
+      "description": "Profile photo 5",
+      "imageUrl": "https://images.unsplash.com/photo-1531123414780-f74242c2b052?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGVyc29uJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY1NDU4MjcxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "profile-6",
+      "description": "Profile photo 6",
+      "imageUrl": "https://images.unsplash.com/photo-1600180758890-6b94519a8ba6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjU0NTgyNzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "profile-7",
+      "description": "Profile photo 7",
+      "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjU0NTgyNzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "profile-8",
+      "description": "Profile photo 8",
+      "imageUrl": "https://images.unsplash.com/photo-1590086782792-42dd2350140d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjU0NTgyNzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "profile-9",
+      "description": "Profile photo 9",
+      "imageUrl": "https://images.unsplash.com/photo-1540569014015-19a7be504e3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjU0NTgyNzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "profile-10",
+      "description": "Profile photo 10",
+      "imageUrl": "https://images.unsplash.com/photo-1531123414780-f74242c2b052?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGVyc29uJTIwcG9ydHJhaXR8ZW58MHx8fHwxNzY1NDU4MjcxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "profile-11",
+      "description": "Profile photo 11",
+      "imageUrl": "https://images.unsplash.com/photo-1540569014015-19a7be504e3a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjU0NTgyNzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "profile-12",
+      "description": "Profile photo 12",
+      "imageUrl": "https://images.unsplash.com/photo-1521119989659-a83eee488004?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NjU0NTgyNzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "current-user",
+      "description": "Current user's profile photo",
+      "imageUrl": "https://images.unsplash.com/photo-1582011715353-0dfce1542acc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxwZXJzb24lMjBtZXxlbnwwfHx8fDE3NjU0NzAwNzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person me"
+    },
+    {
+      "id": "event-1",
+      "description": "Event photo 1",
+      "imageUrl": "https://images.unsplash.com/photo-1523379882969-04477e5c1e90?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzb2NpYWwlMjBldmVudHxlbnwwfHx8fDE3NjU0NzAwNzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "social event"
+    },
+    {
+      "id": "event-2",
+      "description": "Event photo 2",
+      "imageUrl": "https://images.unsplash.com/photo-1583056998456-fdaa183053a1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjb25jZXJ0JTIwbXVzaWN8ZW58MHx8fHwxNzY1MzY1ODc3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "concert music"
+    },
+    {
+      "id": "event-3",
+      "description": "Event photo 3",
+      "imageUrl": "https://images.unsplash.com/photo-1518998053901-5348d3961a04?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhcnQlMjBnYWxsZXJ5fGVufDB8fHx8MTc2NTM5ODcxNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "art gallery"
+    },
+    {
+      "id": "event-4",
+      "description": "Event photo 4",
+      "imageUrl": "https://images.unsplash.com/photo-1653233797467-1a528819fd4f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjb29raW5nJTIwY2xhc3N8ZW58MHx8fHwxNzY1MzgwNDEwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cooking class"
+    },
+    {
+      "id": "event-5",
+      "description": "Event photo 5",
+      "imageUrl": "https://images.unsplash.com/photo-1520095972714-909e91b038e5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxvdXRkb29yJTIwZmVzdGl2YWx8ZW58MHx8fHwxNzY1NDA1OTg0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "outdoor festival"
+    },
+    {
+      "id": "group-1",
+      "description": "Group photo 1",
+      "imageUrl": "https://images.unsplash.com/photo-1551632811-561732d1e306?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxoaWtpbmclMjBncm91cHxlbnwwfHx8fDE3NjU0NzAwNzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "hiking group"
+    },
+    {
+      "id": "group-2",
+      "description": "Group photo 2",
+      "imageUrl": "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxib29rJTIwY2x1YnxlbnwwfHx8fDE3NjU0NzAwNzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "book club"
+    },
+    {
+      "id": "group-3",
+      "description": "Group photo 3",
+      "imageUrl": "https://images.unsplash.com/photo-1690986535140-dc095e75b726?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx3aW5lJTIwdGFzdGluZ3xlbnwwfHx8fDE3NjU0Njg4OTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "wine tasting"
+    },
+    {
+      "id": "group-4",
+      "description": "Group photo 4",
+      "imageUrl": "https://images.unsplash.com/photo-1724055650683-c5c9539c64af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwaG90b2dyYXBoeSUyMGNsdWJ8ZW58MHx8fHwxNzY1NDcwMDcyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "photography club"
+    },
+    {
+      "id": "group-5",
+      "description": "Group photo 5",
+      "imageUrl": "https://images.unsplash.com/photo-1593358578769-b7a7cf27cba7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8eW9nYSUyMGNsYXNzfGVufDB8fHx8MTc2NTQyODYxM3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "yoga class"
+    },
+    {
+      "id": "group-6",
+      "description": "Group photo 6",
+      "imageUrl": "https://images.unsplash.com/photo-1605668206964-a382b202d08b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8c2Fsc2ElMjBkYW5jaW5nfGVufDB8fHx8MTc2NTQwMTc2NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "salsa dancing"
+    },
+    {
+      "id": "group-7",
+      "description": "Group photo 7",
+      "imageUrl": "https://images.unsplash.com/photo-1725272334053-cc3ac867255d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxnYW1pbmclMjBjb21tdW5pdHl8ZW58MHx8fHwxNzY1NDMxMTk3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gaming community"
+    },
+    {
+      "id": "group-8",
+      "description": "Group photo 8",
+      "imageUrl": "https://images.unsplash.com/photo-1753005769053-191188d59316?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx0cmF2ZWwlMjBlbnRodXNpYXN0c3xlbnwwfHx8fDE3NjU0NzAwNzJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "travel enthusiasts"
+    }
+  ]
 }
