@@ -1,21 +1,41 @@
 'use client';
-import { useState, useEffect } from "react";
-import { Heart, Volume2, VolumeX, Music, Play, Pause } from "lucide-react";
+import { useState } from "react";
+import ReactPlayer from 'react-player/youtube';
+import { Heart, Music, Play, Pause } from "lucide-react";
 
 const songs = [
-  { title: "Perfect", artist: "Ed Sheeran" },
-  { title: "All of Me", artist: "John Legend" },
-  { title: "A Thousand Years", artist: "Christina Perri" },
-  { title: "Thinking Out Loud", artist: "Ed Sheeran" },
-  { title: "Can't Help Falling in Love", artist: "Elvis Presley" },
-  { title: "At Last", artist: "Etta James" },
-  { title: "Make You Feel My Love", artist: "Adele" },
-  { title: "You Are The Reason", artist: "Calum Scott" },
+  { title: "Perfect", artist: "Ed Sheeran", url: "https://www.youtube.com/watch?v=2Vv-BfVoq4g" },
+  { title: "All of Me", artist: "John Legend", url: "https://www.youtube.com/watch?v=450p7goxZqg" },
+  { title: "A Thousand Years", artist: "Christina Perri", url: "https://www.youtube.com/watch?v=rtOvBOTyX00" },
+  { title: "Thinking Out Loud", artist: "Ed Sheeran", url: "https://www.youtube.com/watch?v=lp-EO5I60KA" },
+  { title: "Can't Help Falling in Love", artist: "Elvis Presley", url: "https://www.youtube.com/watch?v=vYCh22bgY9g" },
+  { title: "At Last", artist: "Etta James", url: "https://www.youtube.com/watch?v=d1-gP2A74yY" },
+  { title: "Make You Feel My Love", artist: "Adele", url: "https://www.youtube.com/watch?v=0put0_a--Ng" },
+  { title: "You Are The Reason", artist: "Calum Scott", url: "https://www.youtube.com/watch?v=ShZ978fBl6w" },
 ];
 
 const LovePlaylist = () => {
   const [currentSong, setCurrentSong] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const handlePlayPause = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleNext = () => {
+    setCurrentSong((prev) => (prev + 1) % songs.length);
+    setIsPlaying(true);
+  };
+
+  const selectSong = (index: number) => {
+    setCurrentSong(index);
+    setIsPlaying(true);
+  };
 
   return (
     <section className="py-16 px-4 bg-rose-soft/30">
@@ -44,7 +64,7 @@ const LovePlaylist = () => {
               <p className="text-muted-foreground">{songs[currentSong].artist}</p>
             </div>
             <button
-              onClick={() => setIsPlaying(!isPlaying)}
+              onClick={handlePlayPause}
               className="w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:scale-105 transition-transform"
             >
               {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-1" />}
@@ -81,10 +101,7 @@ const LovePlaylist = () => {
             {songs.map((song, index) => (
               <button
                 key={index}
-                onClick={() => {
-                  setCurrentSong(index);
-                  setIsPlaying(true);
-                }}
+                onClick={() => selectSong(index)}
                 className={`w-full p-4 flex items-center gap-4 text-left hover:bg-rose-soft/50 transition-colors ${
                   currentSong === index ? 'bg-rose-soft' : ''
                 }`}
@@ -109,6 +126,27 @@ const LovePlaylist = () => {
             ))}
           </div>
         </div>
+
+        {/* Hidden ReactPlayer */}
+        {isClient && (
+          <div className="hidden">
+            <ReactPlayer
+              url={songs[currentSong].url}
+              playing={isPlaying}
+              onEnded={handleNext}
+              onError={(e) => console.error('ReactPlayer error:', e)}
+              width="0"
+              height="0"
+              config={{
+                youtube: {
+                  playerVars: {
+                    autoplay: 1,
+                  }
+                }
+              }}
+            />
+          </div>
+        )}
       </div>
     </section>
   );
