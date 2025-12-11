@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReactPlayer from 'react-player/youtube';
 import { Heart, Music, Play, Pause } from "lucide-react";
 
